@@ -1,6 +1,9 @@
 package com.gracielo.expertsubmission1.ui.home
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -9,6 +12,7 @@ import android.view.MenuItem
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.gracielo.expertsubmission1.R
@@ -24,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private lateinit var broadcastReceiver: BroadcastReceiver
     lateinit var binding: ActivityMainBinding
 
     //    lateinit var adapter: ListViewAdapter
@@ -60,5 +65,38 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+    private fun registerBroadCastReceiver() {
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                when (intent.action) {
+                    Intent.ACTION_POWER_CONNECTED -> {
+                        showSnackBar("Power Connected")
+                    }
+                    Intent.ACTION_POWER_DISCONNECTED -> {
+                        showSnackBar("Power Disconnected")
+                    }
+                }
+            }
+        }
+        val intentFilter = IntentFilter()
+        intentFilter.apply {
+            addAction(Intent.ACTION_POWER_CONNECTED)
+            addAction(Intent.ACTION_POWER_DISCONNECTED)
+        }
+        registerReceiver(broadcastReceiver, intentFilter)
+    }
 
+    override fun onStart() {
+        super.onStart()
+        registerBroadCastReceiver()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(broadcastReceiver)
+    }
+
+    private fun showSnackBar(msg: String) {
+        Snackbar.make(findViewById(android.R.id.content), msg, Snackbar.LENGTH_SHORT).show()
+    }
 }
