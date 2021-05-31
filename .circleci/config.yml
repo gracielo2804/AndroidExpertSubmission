@@ -22,6 +22,12 @@ jobs:
             - ~/.android/build-cache
             - ~/.android/cache
       - run:
+          name: Delete Gradle Cache
+          command: <HOME>/.gradle/caches
+      - run:
+          name: Stop Gradle
+          command: ./gradlew --stop
+      - run:
           name: Run Build
           command: ./gradlew build
       - store_artifacts: 
