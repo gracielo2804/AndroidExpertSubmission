@@ -79,6 +79,6 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@+id/gambarFilm"
         app:layout_constraintTop_toBottomOf="@+id/txtDescItem"
-        app:srcCompat="@drawable/time" />
+        app:srcCompat="@drawable/date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
