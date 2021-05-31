@@ -23,7 +23,7 @@ jobs:
             - ~/.android/cache
       - run:
           name: Delete Gradle Cache
-          command: <HOME>/.gradle/caches
+          command: .gradle/caches
       - run:
           name: Stop Gradle
           command: ./gradlew --stop
